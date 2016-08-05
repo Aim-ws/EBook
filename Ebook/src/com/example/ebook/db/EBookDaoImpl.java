@@ -42,11 +42,13 @@ public class EBookDaoImpl implements EBookDao{
 		// TODO Auto-generated method stub
 		List<String> list = new ArrayList<String>();
 		SQLiteDatabase db = helper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select * from book", null);
+		Cursor cursor = db.rawQuery("select * from book order by create_time desc", null);
 		while (cursor.moveToNext()) {
 			String path = cursor.getString(cursor.getColumnIndex("book_path"));
 			list.add(path);
 		}
+		cursor.close();
+		db.close();
 		return list;
 	}
 
@@ -54,8 +56,11 @@ public class EBookDaoImpl implements EBookDao{
 	public boolean existBook(String path) {
 		// TODO Auto-generated method stub
 		SQLiteDatabase db = helper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select * from book where book_path = " + path, null);
-		return cursor.moveToNext();
+		Cursor cursor = db.rawQuery("select * from book where book_path = ?", new String[]{path});
+		boolean exist = cursor.moveToNext();
+		cursor.close();
+		db.close();
+		return exist;
 	}
 
 }

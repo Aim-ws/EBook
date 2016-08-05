@@ -51,16 +51,7 @@ public class MainActivity extends BaseActivity implements IMainView, OnItemClick
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_FILE) {
-			String path = data.getStringExtra("path");
-			Log.i(TAG, path);
-			EbookBean bean = new EbookBean();
-			bean.name = FileUtils.getFileName(path);
-			bean.path = path;
-			mMainPresenter.getMainModel().getDatas().add(0, bean);
-			mMainPresenter.getMainModel().getMainAdapter().notifyDataSetChanged();
-			if (!mMainPresenter.getmDaoImpl().existBook(path)) {
-				mMainPresenter.getmDaoImpl().insertBook(path);
-			}
+			mMainPresenter.addEBook(data);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ebook.MainActivity;
+import com.example.ebook.base.CommonPresenter;
 import com.example.ebook.db.EBookDaoImpl;
 import com.example.ebook.file.FileManagerActivity;
 import com.example.ebook.file.util.FileUtils;
@@ -11,8 +12,9 @@ import com.example.ebook.main.adapter.MainAdapter;
 import com.example.ebook.main.bean.EbookBean;
 
 import android.content.Intent;
+import android.util.Log;
 
-public class MainPresenter {
+public class MainPresenter extends CommonPresenter{
 	private IMainView mIMainView;
 	private MainActivity mContext;
 	private MainModel mainModel;
@@ -24,6 +26,7 @@ public class MainPresenter {
 	public MainPresenter(IMainView mIMainView) {
 		super();
 		this.mIMainView = mIMainView;
+		initDebugTAG(MainPresenter.class);
 	}
 
 	public void init(MainActivity context) {
@@ -61,6 +64,27 @@ public class MainPresenter {
 
 	public EBookDaoImpl getmDaoImpl() {
 		return mDaoImpl;
+	}
+
+	public void addEBook(Intent data) {
+		// TODO Auto-generated method stub
+		try {
+			String path = data.getStringExtra("path");
+			Log.i(TAG, path);
+			EbookBean bean = new EbookBean();
+			bean.name = FileUtils.getFileName(path);
+			bean.path = path;
+			mainModel.getDatas().add(0, bean);
+			mainModel.getMainAdapter().notifyDataSetChanged();
+			if (!mDaoImpl.existBook(path)) {
+				mDaoImpl.insertBook(path);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	
