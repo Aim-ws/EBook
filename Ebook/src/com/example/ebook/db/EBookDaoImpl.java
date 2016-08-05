@@ -50,4 +50,12 @@ public class EBookDaoImpl implements EBookDao{
 		return list;
 	}
 
+	@Override
+	public boolean existBook(String path) {
+		// TODO Auto-generated method stub
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select * from book where book_path = " + path, null);
+		return cursor.moveToNext();
+	}
+
 }

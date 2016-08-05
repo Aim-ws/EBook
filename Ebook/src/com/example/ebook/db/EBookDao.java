@@ -8,6 +8,8 @@ public interface EBookDao {
 	
 	void deleteBook(String path);
 	
+	boolean existBook(String path);
+	
 	List<String> getBooks();
 
 }

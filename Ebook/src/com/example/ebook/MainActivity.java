@@ -58,7 +58,9 @@ public class MainActivity extends BaseActivity implements IMainView, OnItemClick
 			bean.path = path;
 			mMainPresenter.getMainModel().getDatas().add(0, bean);
 			mMainPresenter.getMainModel().getMainAdapter().notifyDataSetChanged();
-			mMainPresenter.getmDaoImpl().insertBook(path);
+			if (!mMainPresenter.getmDaoImpl().existBook(path)) {
+				mMainPresenter.getmDaoImpl().insertBook(path);
+			}
 		}
 	}
 	
